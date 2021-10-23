@@ -1,9 +1,31 @@
+const { urlencoded } = require('express');
 const express = require('express');
 const Joi = require('joi');
+const morgan = require('morgan');
+const config = require('config');
+// const log = require('./logger');
+// const logger = require('./logger');
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json());//Middleware para trabajar con parametros en formato json
+app.use(express.urlencoded({extended:true}));//Middleware para trabajar con parametros de formulario
+app.use(express.static('public'));
+
+// Configuración de entornos
+console.log('Aplicación: '+ config.get('nombre'));
+console.log('Aplicación: '+ config.get('configBD.host'));
+
+// Middleware de terceros morgan para registro de http request
+app.use(morgan('tiny'));
+console.log('Morgan inicialido...');
+
+// app.use(logger);
+
+// app.use((req, res, next)=>{
+//     console.log("Autenticando...");
+//     next();
+// });
 
 const usuarios = [
     {id: 1, nombre: 'Grover'},
