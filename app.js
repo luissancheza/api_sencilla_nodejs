@@ -1,3 +1,4 @@
+const debug = require('debug')("app:inicio");
 const { urlencoded } = require('express');
 const express = require('express');
 const Joi = require('joi');
@@ -17,8 +18,10 @@ console.log('Aplicación: '+ config.get('nombre'));
 console.log('Aplicación: '+ config.get('configBD.host'));
 
 // Middleware de terceros morgan para registro de http request
-app.use(morgan('tiny'));
-console.log('Morgan inicialido...');
+if(app.get('env') === 'development'){
+    app.use(morgan('tiny'));
+    debug('Morgan inicialido...');
+}
 
 // app.use(logger);
 
@@ -26,6 +29,9 @@ console.log('Morgan inicialido...');
 //     console.log("Autenticando...");
 //     next();
 // });
+
+// Trabajando con base de datos "ejemplo"
+debug("Conectando con la BD");
 
 const usuarios = [
     {id: 1, nombre: 'Grover'},
